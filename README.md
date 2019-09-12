@@ -1,4 +1,4 @@
-# HOSCO FRONTEND
+# React redux FRONTEND
 
 
 Implemented all tasks except sharing the tracks on social media.
