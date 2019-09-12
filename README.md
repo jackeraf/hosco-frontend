@@ -15,8 +15,8 @@ Used TDD along the way.
 
 ### To run the app WITH docker:
 
-  - sudo docker build . -t hosco-frontend
-  - sudo docker run -p 8080:3000 hosco-frontend
+  - sudo docker build . -t react-redux-frontend
+  - sudo docker run -p 8080:3000 react-redux-frontend
 
 The first command will generate the image.
 The second command will run npm i and npm start.
