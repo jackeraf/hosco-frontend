@@ -70,7 +70,8 @@ export class UnConnectedTrackList extends Component {
   };
 
   enableClickOnSpecificHeaders(header) {
-    return header === "Song length" || header === "Genre" || header === "Price";
+    const headers = ["Song length", "Genre", "Price"];
+    return headers.includes(header);
   }
   getHeaderKeyMapping(field) {
     const keyMappings = {

@@ -4,19 +4,6 @@
   color: $spotify-color;
 }
 
-.image-table-data {
-  width: 15%;
-  transition: all 0.1s;
-}
-
-img.thumbnail {
-  width: 100%;
-  height: 100%;
-}
-.thumbnail-animation:hover {
-  transform: scale(1.1);
-}
-
 .search-track-box {
   height: 85%;
   background-color: #282828;

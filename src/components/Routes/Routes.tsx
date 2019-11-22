@@ -5,8 +5,7 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
-import TrackList from "../../containers/TrackList/TrackList";
-import TrackDetail from "../../containers/TrackDetail/TrackDetail";
+import { TrackDetail, TrackList } from "containers/index";
 
 const Routes: React.FC<any> = (props) => <div className="Routes">
 <Router>
