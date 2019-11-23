@@ -12,7 +12,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "noEmit": true,
     "jsx": "preserve"
   },
@@ -20,6 +20,8 @@
   "paths": {
     "components/*": ["src/components/index"],
     "containers/*": ["src/containers/index"],
+    "store/*": ["src/store"],
     "styles/*": ["src/styles/*"]
-  }
+  },
+  "typeRoots": ["src/customTypings", "node_modules/@types"]
 }

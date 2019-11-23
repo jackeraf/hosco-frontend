@@ -1,127 +1,94 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useReducer, FC, useState, useEffect, useCallback } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import * as actions from "../../store/actions/actions";
+import reducer, { initialState } from "store/reducers/reducer";
 import "./TrackDetail.scss";
+import { ITrack } from "store";
+import { RouteComponentProps } from "react-router";
 
-export class UnConnectedTrackDetail extends Component {
-  state = {
-    tracksIndex: 0,
-    cover: "",
-    author: "",
-    title: "",
-    previewUrl: ""
-  };
+const TrackDetail: FC<RouteComponentProps> = (props: RouteComponentProps) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [tracksIndex, setTracksIndex] = useState(0);
+  const [cover, setCover] = useState("");
+  const [author, setAuthor] = useState("");
+  const [title, setTitle] = useState("");
+  const [previewUrl, setPreviewUrl] = useState("");
 
-  handleTrackDetailsOnMount() {
-    const track = this.props.trackList.find(
-      track => track.trackId === +this.props.match.params.id
+  const handleTrackDetailsOnMount = useCallback(() => {
+    const track = state.trackList.find(
+      track => track.trackId === (props.match.params as any).id
     );
     if (!track) {
-      this.props.history.replace("/");
-      this.props.changeSpinnerState();
+      props.history.replace("/");
+      dispatch(actions.changeSpinnerState());
       return;
     }
-    this.updateDetailTrack(track);
-  }
+    updateDetailTrack(track);
+  }, [state, props]);
 
-  componentDidMount() {
-    if (this.props.trackList.length === 0) {
-      this.props.history.replace("/");
+  useEffect(() => {
+    if (state.trackList.length === 0) {
+      props.history.replace("/");
     }
-    this.handleTrackDetailsOnMount();
-  }
+    handleTrackDetailsOnMount();
+  }, [handleTrackDetailsOnMount, state, props]);
 
-  updateDetailTrack(track) {
-    this.setState({
-      cover: track.artworkUrl100,
-      author: track.artistName,
-      title: track.trackName,
-      previewUrl: track.previewUrl
-    });
-  }
-
-  goToNextTrack = () => {
-    const next = this.props.trackIndex + 1;
-    if (next > this.props.trackList.length - 1) return;
-    const track = this.props.trackList[next];
-    this.props.updateTrackId(track.trackId);
-    this.setState(prevState => ({
-      tracksIndex: prevState.tracksIndex + 1
-    }));
-    this.updateDetailTrack(track);
+  const updateDetailTrack = (track: ITrack) => {
+    setCover(track.artworkUrl100);
+    setAuthor(track.artistName);
+    setTitle(track.trackName);
+    setPreviewUrl(track.previewUrl);
   };
 
-  goToPreviousTrack = () => {
-    const previous = this.props.trackIndex - 1;
+  const goToNextTrack = () => {
+    const next = state.trackIndex + 1;
+    if (next > state.trackList.length - 1) return;
+    const track = state.trackList[next];
+    dispatch(actions.updateTrackId(track.trackId));
+    setTracksIndex(next);
+
+    updateDetailTrack(track);
+  };
+
+  const goToPreviousTrack = () => {
+    const previous = state.trackIndex - 1;
     if (previous < 0) return;
-    const track = this.props.trackList[previous];
-    this.props.updateTrackId(track.trackId);
-    this.setState(prevState => ({
-      tracksIndex: prevState.tracksIndex - 1
-    }));
-    this.updateDetailTrack(track);
+    const track = state.trackList[previous];
+    dispatch(actions.updateTrackId(track.trackId));
+    setTracksIndex(tracksIndex - 1);
+    updateDetailTrack(track);
   };
-
-  render() {
-    if (this.props.trackList.length === 0) return null;
-    const { cover, author, title, previewUrl } = this.state;
-    return (
-      <div className="track-details-wrapper">
-        <div className="track-details-wrapper__button-back-wrapper">
-          <button onClick={() => this.props.history.replace("/tracks")}>
-            Go Home
-          </button>
+  if (state.trackList.length === 0) return null;
+  return (
+    <div className="track-details-wrapper">
+      <div className="track-details-wrapper__button-back-wrapper">
+        <button onClick={() => props.history.replace("/tracks")}>
+          Go Home
+        </button>
+      </div>
+      <div className="track-details-wrapper__center">
+        <div className="track-details-wrapper__center__left">
+          <img src={cover} alt="" />
         </div>
-        <div className="track-details-wrapper__center">
-          <div className="track-details-wrapper__center__left">
-            <img src={cover} alt="" />
-          </div>
-          <div className="track-details-wrapper__center__right">
-            <h2>{author}</h2>
-            <h2 className="track-details-wrapper__center__right__title">
-              {title}
-            </h2>
+        <div className="track-details-wrapper__center__right">
+          <h2>{author}</h2>
+          <h2 className="track-details-wrapper__center__right__title">
+            {title}
+          </h2>
 
-            <ReactAudioPlayer src={previewUrl} autoPlay controls />
-            <div className="track-details-wrapper__center__right__buttons">
-              {this.props.trackIndex === 0 ? null : (
-                <button onClick={() => this.goToPreviousTrack()}>
-                  Previous
-                </button>
-              )}
-              {this.props.trackIndex ===
-              this.props.trackList.length - 1 ? null : (
-                <button onClick={() => this.goToNextTrack()}>Next</button>
-              )}
-            </div>
+          <ReactAudioPlayer src={previewUrl} autoPlay controls />
+          <div className="track-details-wrapper__center__right__buttons">
+            {state.trackIndex === 0 ? null : (
+              <button onClick={() => goToPreviousTrack()}>Previous</button>
+            )}
+            {state.trackIndex === state.trackList.length - 1 ? null : (
+              <button onClick={() => goToNextTrack()}>Next</button>
+            )}
           </div>
         </div>
       </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  const trackList = state.trackList.length !== 0 ? state.trackList : [];
-  const spinnerState = state.spinnerState;
-  const trackIndex = state.trackIndex;
-  return {
-    trackList,
-    spinnerState,
-    trackIndex
-  };
+    </div>
+  );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getTracks: term => dispatch(actions.getTracks(term)),
-    updateTrackId: id => dispatch(actions.updateTrackId(id)),
-    changeSpinnerState: () => dispatch(actions.changeSpinnerState())
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UnConnectedTrackDetail);
+export default TrackDetail;
