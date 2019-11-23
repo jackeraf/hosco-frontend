@@ -16,7 +16,7 @@ const Image = styled.img`
   }
 `;
 
-const TrackItem: React.FC<ITrackItem> = ({ track, goToDetailPage }) => {
+const TrackItem: React.FC<any> = ({ track, goToDetailPage }) => {
   const parseDate = (date: string) => moment(date).format("YYYY MMM DD");
   const parseTrackLength = (length: number) => Math.round(length / 1000 / 60);
   return (

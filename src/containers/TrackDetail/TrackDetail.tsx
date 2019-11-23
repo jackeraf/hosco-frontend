@@ -16,7 +16,7 @@ const TrackDetail: FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   const handleTrackDetailsOnMount = useCallback(() => {
     const track = state.trackList.find(
-      track => track.trackId === (props.match.params as any).id
+      track => track.trackId === +(props.match.params as any).id
     );
     if (!track) {
       props.history.replace("/");

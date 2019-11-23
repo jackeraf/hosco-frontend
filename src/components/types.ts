@@ -1,4 +1,17 @@
-interface ITrack {
+import { ReactNode } from "react";
+
+export interface ITrack {
+  artworkUrl100: string;
+  trackName: string;
+  artistName: string;
+  collectionName?: string;
+  releaseDate?: string;
+  trackTimeMillis?: number;
+  primaryGenreName?: string;
+  trackPrice?: number;
+  trackId: number;
+}
+export interface ITrackResponse {
   wrapperType: string;
   kind: string;
   artistId: number;

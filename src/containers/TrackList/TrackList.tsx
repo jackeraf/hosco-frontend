@@ -1,18 +1,12 @@
 import React, { useState, useReducer } from "react";
 import * as actions from "store/actions/actions";
-import "containers/TrackList.scss";
+import "./TrackList.scss";
 import TrackItem from "components/TrackItem/TrackItem";
 import Notification from "components/shared/Notifications/Notification";
 import Spinner from "components/shared/Spinner/Spinner";
 import { RouteComponentProps } from "react-router";
 import reducer, { initialState } from "store/reducers/reducer";
-
-const InputTrack = styled.input`
-  height: 85%;
-  background-color: #282828;
-  border: solid 1px #b3b3b3;
-  color: #b3b3b3;
-`;
+import FormTrack from "components/Form/FormTrack";
 
 const TrackList: React.FC<RouteComponentProps> = (
   props: RouteComponentProps
@@ -57,9 +51,11 @@ const TrackList: React.FC<RouteComponentProps> = (
     if (validateInput(state.value)) {
       dispatch(actions.updateSearchedTrack(state.value));
       dispatch(actions.changeSpinnerState());
-      return dispatch(actions.getTracks(state.value)).then(() =>
-        dispatch(actions.changeSpinnerState())
-      );
+      // return dispatch(actions.getTracks(state.value)).then(() =>
+      //   dispatch(actions.changeSpinnerState())
+      // );
+      actions.getTracks(state.value);
+      dispatch(actions.changeSpinnerState());
     }
   };
 
@@ -68,7 +64,7 @@ const TrackList: React.FC<RouteComponentProps> = (
     setState({ ...state, value: "" });
   };
 
-  const goToDetailPage = (id: string) => {
+  const goToDetailPage = (id: number) => {
     dispatch(actions.updateTrackId(id));
     props.history.push({
       pathname: `tracks/${id}`
@@ -191,23 +187,16 @@ const TrackList: React.FC<RouteComponentProps> = (
           <h4>Search by name: </h4>
         </div>
         <div className="row">
-          <form onSubmit={handleSearch}>
-            <input
-              className="search-track-box"
-              type="text"
-              name="name"
+          <FormTrack handleSearch={handleSearch}>
+            <FormTrack.InputTrack
               value={state.value}
               onChange={handleChange}
-            />
-            <input type="submit" className="btn btn-spotify" value="Search" />
-            <button
-              className="btn btn-warning"
-              onClick={() => handleCleanSearch()}
-            >
-              <i className="fa fa-refresh" />
-              Clean Search
-            </button>
-          </form>
+            ></FormTrack.InputTrack>
+            <FormTrack.InputSubmit></FormTrack.InputSubmit>
+            <FormTrack.ButtonWarning
+              handleCleanSearch={handleCleanSearch}
+            ></FormTrack.ButtonWarning>
+          </FormTrack>
         </div>
         <div className="row">
           <div className="table-responsive">

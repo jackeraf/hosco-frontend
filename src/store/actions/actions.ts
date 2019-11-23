@@ -32,7 +32,7 @@ export const getTracks = (
   };
 };
 
-export const updateTrackId = (id: string) => ({
+export const updateTrackId = (id: number) => ({
   type: UPDATE_TRACK_ID,
   payload: id
 });

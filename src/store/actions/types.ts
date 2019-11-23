@@ -6,7 +6,7 @@ export const FETCH_TRACK_FAILED = "FETCH_TRACK_FAILED";
 export const SHOW_SPINNER = "SHOW_SPINNER";
 
 export interface ITrack {
-  trackId: string;
+  trackId: number;
   artworkUrl100: string;
   artistName: string;
   trackName: string;
@@ -15,7 +15,7 @@ export interface ITrack {
 
 export interface IInitialState {
   trackList: ITrack[];
-  trackId: string;
+  trackId: number;
   trackIndex: number;
   trackSearched: ITrack[];
   spinnerState: boolean;

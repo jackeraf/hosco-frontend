@@ -11,7 +11,7 @@ import {
 
 export const initialState: IInitialState = {
   trackList: [],
-  trackId: "",
+  trackId: 0,
   trackIndex: 0,
   trackSearched: [],
   spinnerState: false,
@@ -27,7 +27,7 @@ export const updateTracksData = (
 
 export const updateTrackId = (
   prevState: IInitialState,
-  id: string
+  id: number
 ): IInitialState => {
   let index = -1;
   prevState.trackList.forEach((track: ITrack, idx: number) => {
@@ -75,17 +75,12 @@ export const handleSpinnerState = (prevState: IInitialState) => ({
   spinnerState: !prevState.spinnerState
 });
 
-interface IReduxThunkAction {
-  (dispatch: any): Promise<void>;
-}
 interface IActionPayload {
   type?: string;
   payload?: any;
 }
 
-type IAction = IActionPayload | IReduxThunkAction;
-
-const reducer = (prevState = initialState, action: IAction): IInitialState => {
+const reducer = (prevState = initialState, action: IActionPayload): IInitialState => {
   switch (action.type) {
     case UPDATE_TRACKS_DATA:
       return updateTracksData(prevState, action.payload);
