@@ -6,8 +6,9 @@ import {
   FETCH_TRACK_FAILED,
   SHOW_SPINNER,
   IInitialState,
-  ITrack
-} from "store/actions/types";
+  ITrack,
+  IActionPayload
+} from "store";
 
 export const initialState: IInitialState = {
   trackList: [],
@@ -25,7 +26,7 @@ export const updateTracksData = (
   return { ...prevState, trackList: [...prevState.trackList, ...tracks] };
 };
 
-export const updateTrackId = (
+export const updateTrackIdReducerHelper = (
   prevState: IInitialState,
   id: number
 ): IInitialState => {
@@ -53,7 +54,7 @@ export const updateTrackSearched = (
   };
 };
 
-export const cleanSearch = (prevState: IInitialState) => {
+export const cleanSearchReducerHelper = (prevState: IInitialState) => {
   return {
     ...prevState,
     trackList: []
@@ -75,28 +76,24 @@ export const handleSpinnerState = (prevState: IInitialState) => ({
   spinnerState: !prevState.spinnerState
 });
 
-interface IActionPayload {
-  type?: string;
-  payload?: any;
-}
-
-const reducer = (prevState = initialState, action: IActionPayload): IInitialState => {
+export const reducer = (
+  prevState = initialState,
+  action: IActionPayload
+): IInitialState => {
   switch (action.type) {
     case UPDATE_TRACKS_DATA:
       return updateTracksData(prevState, action.payload);
     case UPDATE_TRACK_ID:
-      return updateTrackId(prevState, action.payload);
+      return updateTrackIdReducerHelper(prevState, action.payload);
     case UPDATE_TRACK_SEARCHED:
       return updateTrackSearched(prevState, action.payload);
     case SHOW_SPINNER:
       return handleSpinnerState(prevState);
     case CLEAN_SEARCH:
-      return cleanSearch(prevState);
+      return cleanSearchReducerHelper(prevState);
     case FETCH_TRACK_FAILED:
       return handleFetchError(prevState);
     default:
       return prevState;
   }
 };
-
-export default reducer;

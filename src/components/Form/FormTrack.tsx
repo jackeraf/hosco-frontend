@@ -20,10 +20,8 @@ interface IFormTrack extends Props {
 
 interface IInputTrack {
   value: string | number | string[] | undefined;
-  onChange:
-    | ((event: React.ChangeEvent<HTMLInputElement>) => void)
-    | undefined;
-};
+  onChange: ((event: React.ChangeEvent<HTMLInputElement>) => void) | undefined;
+}
 
 class FormTrack extends Component<IFormTrack, {}> {
   constructor(props: IFormTrack) {
@@ -46,9 +44,7 @@ class FormTrack extends Component<IFormTrack, {}> {
   );
   render() {
     return (
-      <form onSubmit={this.props.handleSearch} {...this.props}>
-        {this.props.children}
-      </form>
+      <form onSubmit={this.props.handleSearch}>{this.props.children}</form>
     );
   }
 }

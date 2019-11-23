@@ -21,3 +21,7 @@ export interface IInitialState {
   spinnerState: boolean;
   fetchError: any;
 }
+export interface IActionPayload {
+  type?: string;
+  payload?: any;
+}

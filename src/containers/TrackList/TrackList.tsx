@@ -1,11 +1,10 @@
 import React, { useState, useReducer } from "react";
-import * as actions from "store/actions/actions";
+import { reducer, actions, initialState, IActionPayload } from "store";
 import "./TrackList.scss";
 import TrackItem from "components/TrackItem/TrackItem";
 import Notification from "components/shared/Notifications/Notification";
 import Spinner from "components/shared/Spinner/Spinner";
 import { RouteComponentProps } from "react-router";
-import reducer, { initialState } from "store/reducers/reducer";
 import FormTrack from "components/Form/FormTrack";
 
 const TrackList: React.FC<RouteComponentProps> = (
@@ -51,11 +50,7 @@ const TrackList: React.FC<RouteComponentProps> = (
     if (validateInput(state.value)) {
       dispatch(actions.updateSearchedTrack(state.value));
       dispatch(actions.changeSpinnerState());
-      // return dispatch(actions.getTracks(state.value)).then(() =>
-      //   dispatch(actions.changeSpinnerState())
-      // );
-      actions.getTracks(state.value);
-      dispatch(actions.changeSpinnerState());
+      actions.getTracks(state.value)(dispatch as IActionPayload);
     }
   };
 

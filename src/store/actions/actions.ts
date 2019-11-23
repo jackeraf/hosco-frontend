@@ -1,4 +1,3 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import {
   UPDATE_TRACKS_DATA,
   UPDATE_TRACK_ID,
@@ -6,24 +5,24 @@ import {
   CLEAN_SEARCH,
   FETCH_TRACK_FAILED,
   SHOW_SPINNER,
-  ITrack
-} from "store/actions/types";
+  ITrack,
+  IActionPayload,
+  actions
+} from "store";
 
 import searchItunes from "../../services/searchItunes";
-import { AnyAction } from "redux";
 
 export const updateTracks = (response: ITrack[]) => ({
   type: UPDATE_TRACKS_DATA,
   payload: response.slice(0, 14)
 });
 
-export const getTracks = (
-  term: string
-): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
-  return (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
+export const getTracks = (term: string): React.Dispatch<IActionPayload> => {
+  return (dispatch: any): Promise<void> => {
     return searchItunes(term)
       .then(response => {
         const { results } = response.data;
+        dispatch(actions.changeSpinnerState());
         dispatch(updateTracks(results));
       })
       .catch(() => {

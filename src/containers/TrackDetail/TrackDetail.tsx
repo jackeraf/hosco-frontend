@@ -1,9 +1,7 @@
 import React, { useReducer, FC, useState, useEffect, useCallback } from "react";
 import ReactAudioPlayer from "react-audio-player";
-import * as actions from "../../store/actions/actions";
-import reducer, { initialState } from "store/reducers/reducer";
+import { actions, initialState, reducer, ITrack } from "store";
 import "./TrackDetail.scss";
-import { ITrack } from "store";
 import { RouteComponentProps } from "react-router";
 
 const TrackDetail: FC<RouteComponentProps> = (props: RouteComponentProps) => {

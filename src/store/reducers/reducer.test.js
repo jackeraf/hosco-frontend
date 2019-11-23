@@ -1,15 +1,15 @@
 import reducer from "./reducer";
 import * as actions from "../actions/actions";
 import * as mocks from "../../mock/itunesResponse";
-jest.mock("../../services/searchItunes");
-import searchItunes from "../../services/searchItunes";
 import {
   updateTracksData,
-  updateTrackId,
+  updateTrackIdReducerHelper,
   updateTrackSearched,
-  cleanSearch,
+  cleanSearchReducerHelper,
   handleFetchError
-} from "../reducers/reducer";
+} from "store";
+import searchItunes from "../../services/searchItunes";
+jest.mock("../../services/searchItunes");
 
 searchItunes.mockImplementation(() => Promise.resolve(mocks.itunesResponse()));
 
@@ -34,7 +34,7 @@ describe("Tracks reducer", () => {
   it("should return track id", () => {
     const trackId = 0;
     expect(reducer(initialState, actions.updateTrackId(trackId))).toEqual(
-      updateTrackId(initialState, trackId)
+      updateTrackIdReducerHelper(initialState, trackId)
     );
     expect.assertions(1);
   });
@@ -61,7 +61,7 @@ describe("Tracks reducer", () => {
       trackSearched: mocks.tracksSearched()
     };
     expect(reducer(stateWithSearches, actions.cleanSearch())).toEqual(
-      cleanSearch(stateWithSearches)
+      cleanSearchReducerHelper(stateWithSearches)
     );
     expect.assertions(1);
   });

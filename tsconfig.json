@@ -20,7 +20,7 @@
   "paths": {
     "components/*": ["src/components/index"],
     "containers/*": ["src/containers/index"],
-    "store/*": ["src/store"],
+    "store/*": ["src/store/index"],
     "styles/*": ["src/styles/*"]
   },
   "typeRoots": ["src/customTypings", "node_modules/@types"]
