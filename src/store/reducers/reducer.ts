@@ -30,6 +30,7 @@ export const updateTrackIdReducerHelper = (
   prevState: IInitialState,
   id: number
 ): IInitialState => {
+  console.log("updateTrackIdReducerHelper: ", id);
   let index = -1;
   prevState.trackList.forEach((track: ITrack, idx: number) => {
     if (track.trackId === id) index = idx;
@@ -84,6 +85,7 @@ export const reducer = (
     case UPDATE_TRACKS_DATA:
       return updateTracksData(prevState, action.payload);
     case UPDATE_TRACK_ID:
+      console.log("inside UPDATE_TRACK_ID")
       return updateTrackIdReducerHelper(prevState, action.payload);
     case UPDATE_TRACK_SEARCHED:
       return updateTrackSearched(prevState, action.payload);

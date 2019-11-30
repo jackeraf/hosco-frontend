@@ -1,6 +1,5 @@
 import React from "react";
 import moment from "moment";
-import { ITrackItem } from "components";
 import styled from "styled-components";
 
 const TableDataWithImage = styled.td`
@@ -28,8 +27,8 @@ const TrackItem: React.FC<any> = ({ track, goToDetailPage }) => {
       <td>{track.trackName}</td>
       <td>{track.artistName}</td>
       <td>{track.collectionName}</td>
-      <td>{parseDate(track.releaseDate)}</td>
-      <td>{parseTrackLength(track.trackTimeMillis)} mins</td>
+      <td>{parseDate(track.releaseDate || "")}</td>
+      <td>{parseTrackLength(track.trackTimeMillis || 0)} mins</td>
       <td>{track.primaryGenreName}</td>
       <td>{track.trackPrice}</td>
       <td>

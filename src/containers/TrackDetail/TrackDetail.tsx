@@ -5,7 +5,10 @@ import "./TrackDetail.scss";
 import { RouteComponentProps } from "react-router";
 
 const TrackDetail: FC<RouteComponentProps> = (props: RouteComponentProps) => {
+  console.log("TrackDetail");
   const [state, dispatch] = useReducer(reducer, initialState);
+  console.log("state");
+  console.log(state);
   const [tracksIndex, setTracksIndex] = useState(0);
   const [cover, setCover] = useState("");
   const [author, setAuthor] = useState("");

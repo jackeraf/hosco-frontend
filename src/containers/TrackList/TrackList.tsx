@@ -1,4 +1,5 @@
 import React, { useState, useReducer } from "react";
+import { useHistory } from "react-router-dom";
 import { reducer, actions, initialState, IActionPayload } from "store";
 import "./TrackList.scss";
 import TrackItem from "components/TrackItem/TrackItem";
@@ -10,6 +11,9 @@ import FormTrack from "components/Form/FormTrack";
 const TrackList: React.FC<RouteComponentProps> = (
   props: RouteComponentProps
 ) => {
+  let history = useHistory();
+  console.log("history");
+  console.log(history);
   const localInitialState = {
     currentTrackIndex: 0,
     value: "",
@@ -60,10 +64,9 @@ const TrackList: React.FC<RouteComponentProps> = (
   };
 
   const goToDetailPage = (id: number) => {
+    console.log("goToDetailPage clicked ", id);
     dispatch(actions.updateTrackId(id));
-    props.history.push({
-      pathname: `tracks/${id}`
-    });
+    history.push(`tracks/${id.toString()}`);
   };
 
   const enableClickOnSpecificHeaders = (header: string) => {
@@ -159,7 +162,7 @@ const TrackList: React.FC<RouteComponentProps> = (
         key={index}
         track={track}
         index={index}
-        goToDetailPage={() => goToDetailPage}
+        goToDetailPage={goToDetailPage}
       />
     ));
   };
