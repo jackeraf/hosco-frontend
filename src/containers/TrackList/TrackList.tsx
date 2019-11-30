@@ -63,7 +63,6 @@ const TrackList: React.FC<RouteComponentProps> = (
   };
 
   const goToDetailPage = (id: number) => {
-    console.log("goToDetailPage clicked ", id);
     dispatch(actions.updateTrackId(id));
     history.push(`tracks/${id.toString()}`);
   };
