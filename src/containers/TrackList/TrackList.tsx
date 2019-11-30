@@ -1,19 +1,18 @@
-import React, { useState, useReducer } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { reducer, actions, initialState, IActionPayload } from "store";
+import { actions, IActionPayload } from "store";
 import "./TrackList.scss";
 import TrackItem from "components/TrackItem/TrackItem";
 import Notification from "components/shared/Notifications/Notification";
 import Spinner from "components/shared/Spinner/Spinner";
 import { RouteComponentProps } from "react-router";
 import FormTrack from "components/Form/FormTrack";
+import { useTrackList } from "containers/contexts/TrackListProvider";
 
 const TrackList: React.FC<RouteComponentProps> = (
   props: RouteComponentProps
 ) => {
   let history = useHistory();
-  console.log("history");
-  console.log(history);
   const localInitialState = {
     currentTrackIndex: 0,
     value: "",
@@ -37,8 +36,8 @@ const TrackList: React.FC<RouteComponentProps> = (
       asc: false
     }
   };
-  const [reducerState, dispatch] = useReducer(reducer, initialState);
   const [state, setState] = useState(localInitialState);
+  const { reducerState, dispatch } = useTrackList();
   const handleChange = (event: { target: { value: string } }) => {
     if (validateInput(event.target.value)) {
       setState({ ...state, value: event.target.value });
